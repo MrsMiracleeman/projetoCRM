@@ -1,0 +1,66 @@
+{
+  "chamados": [
+    {
+      "ID": 1,
+      "codigo": "CHM001",
+      "status": "Fechado",
+      "comentario": "Chamado de teste aberto.",
+      "id": "4d6d"
+    },
+    {
+      "id": "8a20",
+      "codigo": "CHM002",
+      "status": "Concluído",
+      "comentario": "testes",
+      "cliente": 2654
+    },
+    {
+      "id": "542a",
+      "codigo": "CHM003",
+      "status": "Concluído",
+      "comentario": "cometnario x",
+      "cliente": 4354
+    },
+    {
+      "id": "f592",
+      "codigo": "CHM004",
+      "status": "Pendente",
+      "comentario": "teste",
+      "cliente": 3408
+    },
+    {
+      "id": "afdc",
+      "codigo": "CHM005",
+      "status": "Concluído",
+      "comentario": "Teste geral",
+      "cliente": 1808
+    },
+    {
+      "id": "f288",
+      "codigo": "CHM006",
+      "status": "Concluído",
+      "comentario": "Chamado para resolver problema X",
+      "cliente": 7586
+    },
+    {
+      "id": "b6a9",
+      "codigo": "CHM007",
+      "status": "Pendente",
+      "comentario": "Problema com cliente X",
+      "cliente": 9827
+    }
+  ],
+  "campanhas": [
+    {
+      "id": "e0d9",
+      "codigo": 2,
+      "nome": "Campanha Empresa X",
+      "valor": "5000",
+      "objetivo": "email",
+      "cliente": "rodrigoo.czaar@gmail.com",
+      "data": "2024-12-06",
+      "disparo": "sim",
+      "modelo": "modeloVenda2"
+    }
+  ]
+}

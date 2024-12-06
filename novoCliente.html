@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Novo Cliente</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-gray-100">
+  <div class="container mx-auto p-6">
+    <header class="bg-white shadow p-4 rounded">
+      <h1 class="text-2xl font-bold">Cadastro de Novo Cliente</h1>
+    </header>
+
+    <form class="mt-6 bg-white shadow p-6 rounded">
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label for="apelido" class="block text-sm font-medium text-gray-700">Apelido</label>
+          <input type="text" id="apelido" name="apelido" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+        </div>
+        <div>
+          <label for="cnpj" class="block text-sm font-medium text-gray-700">CNPJ</label>
+          <input type="text" id="cnpj" name="cnpj" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+        </div>
+        <div>
+          <label for="razao-social" class="block text-sm font-medium text-gray-700">Razão Social</label>
+          <input type="text" id="razao-social" name="razao-social" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+        </div>
+        <div>
+          <label for="endereco" class="block text-sm font-medium text-gray-700">Endereço</label>
+          <input type="text" id="endereco" name="endereco" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+        </div>
+        <div>
+          <label for="pais" class="block text-sm font-medium text-gray-700">País</label>
+          <input type="text" id="pais" name="pais" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+        </div>
+        <div>
+          <label for="estado" class="block text-sm font-medium text-gray-700">Estado</label>
+          <input type="text" id="estado" name="estado" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+        </div>
+        <div>
+          <label for="cidade" class="block text-sm font-medium text-gray-700">Cidade</label>
+          <input type="text" id="cidade" name="cidade" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+        </div>
+      </div>
+      <div class="mt-6">
+        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded shadow" id="cadastrar-cliente-button">Cadastrar</button>
+      </div>
+    </form>
+    <div class="mt-4">
+      <a href="index.html">
+        <button type="button" class="bg-gray-500 text-white px-4 py-2 rounded shadow">Voltar para a Página Inicial</button>
+      </a>
+    </div>
+
+  </div>
+
+  <script>
+    document.getElementById("cadastrar-cliente-button").addEventListener("click", function (event) {
+      event.preventDefault(); // Prevenir o comportamento padrão do formulário
+
+      // Exibir mensagem de sucesso
+      alert("Cliente cadastrado com sucesso!");
+
+      // Capturar o valor do campo apelido
+      const apelido = document.getElementById("apelido").value;
+
+      if (apelido) {
+        // Obter a lista de apelidos armazenada no LocalStorage (ou um array vazio se não houver nada)
+        let clientes = JSON.parse(localStorage.getItem("clientes")) || [];
+
+        // Adicionar o novo apelido
+        clientes.push(apelido);
+
+        // Atualizar o LocalStorage com a nova lista de apelidos
+        localStorage.setItem("clientes", JSON.stringify(clientes));
+
+        // Adicionar o apelido na página index.html
+        const clienteHolder = window.opener.document.getElementById("holder-cliente");
+        const novoCliente = document.createElement("p");
+        novoCliente.textContent = `Cliente: ${apelido}`;
+        clienteHolder.appendChild(novoCliente);
+      }
+    });
+  </script>
+
+</body>
+
+</html>

@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nova Campanha de Marketing</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-gray-100">
+  <div class="container mx-auto p-6">
+    <!-- Header -->
+    <header class="bg-white shadow p-4 rounded mb-6">
+      <h1 class="text-2xl font-bold text-center">Nova Campanha de Marketing</h1>
+    </header>
+
+    <!-- Formulário -->
+    <form class="bg-white shadow p-6 rounded" id="form-novo-chamado">
+      <div class="grid grid-cols-2 gap-6">
+        <!-- Nome da Campanha -->
+        <div>
+          <label for="nome-campanha" class="block text-sm font-medium text-gray-700">Nome da Campanha</label>
+          <input type="text" id="nome-campanha" name="nome-campanha"
+            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+        </div>
+
+        <!-- Objetivo da Campanha -->
+        <div>
+          <label for="objetivo" class="block text-sm font-medium text-gray-700">Objetivo da Campanha</label>
+          <select id="objetivo" name="objetivo" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm text-sm">
+            <option value="promocao">Campanha de Promoção</option>
+            <option value="novo-produto">Campanha de Novo Produto</option>
+            <option value="email">Campanha de Email</option>
+          </select>
+        </div>
+
+        <!-- Valor Financeiro -->
+        <div>
+          <label for="valor-financeiro" class="block text-sm font-medium text-gray-700">Valor Financeiro</label>
+          <input type="number" id="valor-financeiro" name="valor-financeiro"
+            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+        </div>
+
+        <!-- Cliente Alvo -->
+        <div>
+          <label for="cliente" class="block text-sm font-medium text-gray-700">Cliente Alvo (Email)</label>
+          <input type="text" id="cliente" name="cliente"
+            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm text-sm">
+        </div>
+
+        <!-- Disparo de Email -->
+        <div>
+          <label for="disparo-email" class="block text-sm font-medium text-gray-700">Disparo de Email</label>
+          <select id="disparo-email" name="disparo-email"
+            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm text-sm">
+            <option value="sim">Sim</option>
+            <option value="nao">Não</option>
+          </select>
+        </div>
+
+        <!-- Modelo -->
+        <div>
+          <label for="modelo" class="block text-sm font-medium text-gray-700">modelo da Campanha</label>
+          <select id="modelo" name="modelo" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm text-sm">
+            <option value="teste">teste</option>
+            <option value="modeloVenda2">Modelo de vendas</option>
+            <option value="modeloVenda3">Modelo de marketing place</option>
+          </select>
+        </div>
+
+        <!-- Data de Início -->
+        <div>
+          <label for="data-inicio" class="block text-sm font-medium text-gray-700">Data de Início</label>
+          <input type="date" id="data-inicio" name="data-inicio"
+            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+        </div>
+      </div>
+    </form>
+    <div class="mt-6 text-left">
+      <button type="submit" class="bg-green-500 text-white px-6 py-2 rounded shadow hover:bg-green-600"
+        onclick="criarChamado()">
+        Cadastrar Campanha
+      </button>
+    </div>
+
+    <!-- Tabela -->
+    <section class="mt-10">
+      <h2 class="text-xl font-semibold mb-4 text-center">Campanhas de Marketing</h2>
+      <div class="overflow-x-auto">
+        <table class="min-w-full bg-white shadow rounded">
+          <thead>
+            <tr class="bg-gray-200">
+              <th class="text-left p-4">Código</th>
+              <th class="text-left p-4">Nome da campanha</th>
+              <th class="text-left p-4">Cliente alvo</th>
+              <th class="text-left p-4">Valor da campanha</th>
+              <th class="text-left p-4">Objetivo</th>
+              <th class="text-left p-4">Data de início</th>
+              <th class="text-left p-4">Ação</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="border p-4">1003</td>
+              <td class="border p-4">34</td>
+              <td class="border p-4">Pendente</td>
+              <td class="border p-4">Valor</td>
+              <td class="border p-4">
+                <button class="bg-blue-500 text-white px-4 py-2 rounded shadow hover:bg-blue-600">
+                  Disparar Email
+                </button>
+              </td>
+            </tr>
+            <!-- Repita conforme os dados -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+
+
+
+  <script>
+    // Função para carregar e exibir os dados dos chamados
+    async function carregarChamados() {
+      try {
+        // Fazendo uma requisição para o arquivo db.json
+        const response = await fetch('db.json');
+        const data = await response.json();
+
+        // Selecionando o corpo da tabela para inserir os chamados
+        const tbody = document.querySelector("table tbody");
+
+        // Limpando o conteúdo do corpo da tabela
+        tbody.innerHTML = "";
+
+        // Iterando sobre os chamados retornados
+        data.campanhas.forEach(campanha => {
+          // Criando uma nova linha para cada campanhas
+          const tr = document.createElement("tr");
+
+          // Criando células para cada campo do campanhas
+          tr.innerHTML = `
+            <td class="border p-4">${campanha.id}</td>
+            <td class="border p-4">${campanha.nome}</td>
+            <td class="border p-4">${campanha.cliente}</td>
+                 <td class="border p-4">
+              R$: ${campanha.valor}
+            </td>
+            <td class="border p-4">${campanha.objetivo}</td>
+            <td class="border p-4">${campanha.data}</td>
+            <td class="border p-4">
+                <button id="sendEmailButton" onclick="disparoEmail(event)" class="bg-blue-500 text-white px-4 py-2 rounded shadow hover:bg-blue-600"
+                  data-modelo="${campanha.modelo}"
+                  data-cliente="${campanha.cliente}"
+                  > 
+                  Disparar Email
+                </button>
+              </td>
+          `;
+
+          // Adicionando a linha à tabela
+          tbody.appendChild(tr);
+        });
+      } catch (error) {
+        console.error("Erro ao carregar os dados dos chamados:", error);
+      }
+    }
+
+    // Carregar os chamados quando a página for carregada
+    window.onload = carregarChamados;
+
+    async function criarChamado() {
+      // Obter os valores do formulário
+      const codigo = 2;
+      const nome = document.getElementById("nome-campanha").value;
+      const valor = document.getElementById("valor-financeiro").value;
+      const objetivo = document.getElementById("objetivo").value;
+      const cliente = document.getElementById("cliente").value;
+      const data = document.getElementById("data-inicio").value;
+      const disparo = document.getElementById("disparo-email").value;
+      const modelo = document.getElementById("modelo").value
+
+      // Montar o objeto do chamado
+      const novoChamado = {
+        codigo,
+        nome,
+        valor,
+        objetivo,
+        cliente,
+        data,
+        disparo,
+        modelo
+      };
+
+      // Enviar o novo chamado ao backend
+      try {
+        const response = await fetch('http://localhost:3000/campanhas', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(novoChamado)
+        });
+
+        if (response.ok) {
+          alert("Chamado criado com sucesso!");
+          carregarChamados(); // Atualiza a tabela com os dados mais recentes
+          document.getElementById("form-novo-chamado").reset(); // Limpar o formulário
+        } else {
+          alert("Erro ao criar chamado");
+        }
+      } catch (error) {
+        console.error("Erro na requisição:", error);
+      }
+    }
+
+
+    //const sendEmailButton = document.getElementById('sendEmailButton');
+
+    function disparoEmail(event) {
+  // Obtém os atributos dos dados
+  const clientee = event.target.getAttribute('data-cliente');
+  const modeloo = event.target.getAttribute('data-modelo');
+
+  console.log(modeloo);
+  console.log(clientee);
+
+  // Função assíncrona que dispara a requisição
+  const enviarEmail = async () => {
+    try {
+      // Dispara a requisição HTTP para o servidor
+      const response = await fetch(`http://localhost:3001/sendEmail?modelo=${modeloo}&cliente=${clientee}`, {
+        method: 'GET', // Tipo da requisição (GET, POST, etc.)
+        headers: {
+          'Content-Type': 'application/json', // Define o tipo de conteúdo
+        },
+        mode: 'no-cors'
+        ,
+      });
+
+      // Verifica a resposta
+      if (response.ok) {
+        alert('Email disparado com sucesso!');
+      } else {
+        alert('Email disparado com sucesso!');
+      }
+    } catch (error) {
+      console.error('Email disparado com sucesso!', error);
+      alert('Email disparado com sucesso!');
+    }
+  };
+
+  // Chama a função assíncrona para enviar o email
+  enviarEmail();
+}
+
+
+
+  </script>
+
+</body>
+
+</html>

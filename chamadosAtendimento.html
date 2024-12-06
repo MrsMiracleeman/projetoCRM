@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chamados de Atendimento</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-gray-100">
+  <div class="container mx-auto p-6">
+    <header class="bg-white shadow p-4 rounded">
+      <h1 class="text-2xl font-bold">Chamados de Atendimento</h1>
+      <p class="text-gray-600">Olá, Rodrigo César</p>
+    </header>
+
+    <section class="mt-6">
+      <h2 class="text-xl font-semibold mb-4">Novo Chamado</h2>
+      <form id="form-novo-chamado" class="bg-white shadow p-4 rounded">
+        <div>
+          <label for="codigo" class="block text-sm font-medium text-gray-700">Código</label>
+          <input type="text" id="codigo" name="codigo" required
+            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+        </div>
+        <!--
+        <div class="mt-4">
+          <label for="status" class="block text-sm font-medium text-gray-700">Status</label>
+          <input type="text" id="status" name="status" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+        </div>
+      -->
+
+        <div class="mt-4">
+          <label for="comentario" class="block text-sm font-medium text-gray-700">Comentário</label>
+          <textarea id="comentario" name="comentario" required
+            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm"></textarea>
+        </div>
+        <div class="mt-6">
+          <button type="button" onclick="criarChamado()" class="bg-blue-500 text-white px-4 py-2 rounded shadow">Criar
+            Chamado</button>
+        </div>
+      </form>
+    </section>
+
+    <section class="mt-6">
+      <h2 class="text-xl font-semibold mb-4">Chamados</h2>
+      <table class="min-w-full bg-white shadow rounded">
+        <thead>
+          <tr>
+            <th class="text-left p-4">Código</th>
+            <th class="text-left p-4">Status</th>
+            <th class="text-left p-4">Comentários</th>
+            <th class="text-left p-4">Conclusao</th>
+            <th class="text-left p-4">Problema</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="border p-4">1003</td>
+            <td class="border p-4">34</td>
+            <td class="border p-4">Pendente</td>
+            <td class="border p-4">N/A</td>
+            <td class="border p-4">
+              <button class="bg-blue-500 text-white px-4 py-2 rounded shadow">Marcar como resolvido</button>
+            </td>
+          </tr>
+          <!-- Repetir conforme os dados -->
+        </tbody>
+      </table>
+    </section>
+  </div>
+  <!--
+  <div class="mt-6">
+    <a href="index.html">
+      <button type="button" class="bg-gray-500 text-white px-4 py-2 rounded shadow">Voltar para a Página
+        Inicial</button>
+    </a>
+  </div>
+-->
+  <script>
+    // Função para carregar e exibir os dados dos chamados
+    async function carregarChamados() {
+      try {
+        // Fazendo uma requisição para o arquivo db.json
+        const response = await fetch('db.json');
+        const data = await response.json();
+
+        // Selecionando o corpo da tabela para inserir os chamados
+        const tbody = document.querySelector("table tbody");
+
+        // Limpando o conteúdo do corpo da tabela
+        tbody.innerHTML = "";
+
+        // Iterando sobre os chamados retornados
+        data.chamados.forEach(chamado => {
+          // Criando uma nova linha para cada chamado
+          const tr = document.createElement("tr");
+
+          // Criando células para cada campo do chamado
+          tr.innerHTML = `
+            <td class="border p-4">${chamado.codigo}</td>
+            <td class="border p-4">${chamado.status}</td>
+            <td class="border p-4">${chamado.comentario}</td>
+            <td class="border p-4 text-center align-middle"">
+            <button id="sendEmailButton" onclick="atualizandoStatus(event,'Concluído')" class="bg-green-500 text-white px-4 py-2 rounded shadow hover:bg-green-600"
+            date-id=${chamado.id}
+            > 
+                  Informar Conclusão
+                </button>
+            </td>
+            <td class="border p-4 text-center align-middle"">
+                 <button id="sendEmailButton" onclick="atualizandoStatus(event,'Em Análise')"class="bg-red-500 text-white px-4 py-2 rounded shadow hover:bg-red-600"
+                 date-id=${chamado.id} 
+                 > 
+                  Informar Problema
+                </button>
+            </td>
+          `;
+
+          // Adicionando a linha à tabela
+          tbody.appendChild(tr);
+        });
+      } catch (error) {
+        console.error("Erro ao carregar os dados dos chamados:", error);
+      }
+    }
+
+    // Carregar os chamados quando a página for carregada
+    window.onload = carregarChamados;
+
+
+    async function atualizandoStatus(event, data) {
+  try {
+    const response = await fetch(`http://localhost:3000/chamados/${event.target.getAttribute('date-id')}`, { // Altere o URL conforme necessário
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({status:data}),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Erro ao atualizar o chamado com ID ${id}: ${response.statusText}`);
+    }
+
+    const result = await response.json();
+    console.log(`Chamado atualizado com sucesso:`, result);
+    return result;
+  } catch (error) {
+    console.error(`Erro na requisição PATCH:`, error);
+    return null;
+  }
+}
+
+
+
+    async function criarChamado() {
+      // Obter os valores do formulário
+      const codigo = document.getElementById("codigo").value;
+      const status = "Pendente";
+      const comentario = document.getElementById("comentario").value;
+      const cliente = Math.floor(1000 + Math.random() * 9000);
+
+      // Montar o objeto do chamado
+      const novoChamado = {
+        codigo,
+        status,
+        comentario,
+        cliente
+      };
+
+      // Enviar o novo chamado ao backend
+      try {
+        const response = await fetch('http://localhost:3000/chamados', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(novoChamado)
+        });
+
+        if (response.ok) {
+          alert("Chamado criado com sucesso!");
+          carregarChamados(); // Atualiza a tabela com os dados mais recentes
+          document.getElementById("form-novo-chamado").reset(); // Limpar o formulário
+        } else {
+          alert("Erro ao criar chamado");
+        }
+      } catch (error) {
+        console.error("Erro na requisição:", error);
+      }
+    }
+  </script>
+</body>
+
+</html>

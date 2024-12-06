@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nova Campanha de Marketing</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+  <div class="container mx-auto p-6">
+    <!-- Header -->
+    <header class="bg-white shadow p-4 rounded mb-6">
+      <h1 class="text-2xl font-bold text-center">Nova Campanha de Marketing</h1>
+    </header>
+
+    <!-- Formulário -->
+    <form class="bg-white shadow p-6 rounded">
+      <div class="grid grid-cols-2 gap-6">
+        <!-- Nome da Campanha -->
+        <div>
+          <label for="nome-campanha" class="block text-sm font-medium text-gray-700">Nome da Campanha</label>
+          <input type="text" id="nome-campanha" name="nome-campanha" class="mt-1 block w-3/4 h-12 border-gray-300 rounded-md shadow-sm">
+        </div>
+
+        <!-- Objetivo da Campanha -->
+        <div>
+          <label for="objetivo" class="block text-sm font-medium text-gray-700">Objetivo da Campanha</label>
+          <select id="objetivo" name="objetivo" class="mt-1 block w-3/4 h-12 border-gray-300 rounded-md shadow-sm text-sm">
+            <option value="promocao">Campanha de Promoção</option>
+            <option value="novo-produto">Campanha de Novo Produto</option>
+            <option value="email">Campanha de Email</option>
+          </select>
+        </div>
+
+        <!-- Valor Financeiro -->
+        <div>
+          <label for="valor-financeiro" class="block text-sm font-medium text-gray-700">Valor Financeiro</label>
+          <input type="number" id="valor-financeiro" name="valor-financeiro" class="mt-1 block w-3/4 h-12 border-gray-300 rounded-md shadow-sm">
+        </div>
+
+        <!-- Cliente Alvo -->
+        <div>
+          <label for="cliente" class="block text-sm font-medium text-gray-700">Cliente Alvo (Email)</label>
+          <input type="text" id="cliente" name="cliente" class="mt-1 block w-3/4 h-12 border-gray-300 rounded-md shadow-sm">
+        </div>
+
+        <!-- Disparo de Email -->
+        <div>
+          <label for="disparo-email" class="block text-sm font-medium text-gray-700">Disparo de Email</label>
+          <select id="disparo-email" name="disparo-email" class="mt-1 block w-3/4 h-12 border-gray-300 rounded-md shadow-sm text-sm">
+            <option value="sim">Sim</option>
+            <option value="nao">Não</option>
+          </select>
+        </div>
+
+        <!-- Data de Início -->
+        <div>
+          <label for="data-inicio" class="block text-sm font-medium text-gray-700">Data de Início</label>
+          <input type="date" id="data-inicio" name="data-inicio" class="mt-1 block w-3/4 h-12 border-gray-300 rounded-md shadow-sm">
+        </div>
+      </div>
+
+      <!-- Botão -->
+      <div class="mt-6 text-center">
+        <button type="submit" class="bg-green-500 text-white px-6 py-2 rounded shadow hover:bg-green-600">
